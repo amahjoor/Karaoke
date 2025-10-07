@@ -94,12 +94,18 @@
   font-size: 1.3rem;
   font-weight: bold;
   margin-bottom: 5px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 .song-artist {
   font-size: 1.1rem;
   color: #cccccc;
   margin-bottom: 5px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 .song-duration {
@@ -137,12 +143,18 @@
 .song-info h2 {
   margin: 10px 0;
   font-size: 2rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 .song-info p {
   margin: 5px 0;
   font-size: 1.2rem;
   color: #cccccc;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 .processing-message {
@@ -240,6 +252,10 @@
   max-width: 900px;
   margin: 0 auto;
   padding: 20px;
+  overflow-x: hidden;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  box-sizing: border-box;
 }
 
 .lyric-line {
@@ -247,12 +263,17 @@
   font-weight: 700;
   line-height: 1.4;
   text-align: center;
-  margin: 30px 0;
+   margin: 30px 0;
   padding: 15px 20px;
   transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
   cursor: pointer;
   user-select: none;
   letter-spacing: -0.02em;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .lyric-line.past {
@@ -288,6 +309,8 @@
   display: inline;
   cursor: pointer;
   transition: all 0.15s ease;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .lyric-word-inline.active {
