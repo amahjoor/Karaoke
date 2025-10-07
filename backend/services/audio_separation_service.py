@@ -37,27 +37,30 @@ class AudioSeparationService:
             
             try:
                 # Run demucs separation
-                # Using htdemucs model (best quality, but slower)
-                # Options:
-                # - htdemucs: High-quality transformer-based model (default, best quality)
-                # - htdemucs_ft: Fine-tuned version (faster, slightly lower quality)
-                # - mdx_extra: Alternative model (faster)
+                # Using mdx_extra model (OPTIMIZED FOR SPEED)
+                # Model comparison:
+                # - htdemucs: High-quality but VERY SLOW (transformer-based)
+                # - htdemucs_ft: Slightly faster, but still slow
+                # - mdx_extra: 3-4x FASTER, good quality (recommended for speed)
+                # - mdx_extra_q: Even faster with quantization
                 
-                print(f"Starting audio separation for {video_id}...")
+                print(f"Starting audio separation for {video_id} (using fast mdx_extra model)...")
                 
-                # Demucs command
-                # -n: model name
+                # Demucs command optimized for speed
+                # -n: model name (mdx_extra for speed)
                 # -o: output directory
                 # --two-stems: only separate into vocals and accompaniment (faster)
                 # --mp3: output format
                 # --mp3-bitrate: bitrate for mp3
+                # --int24: use int24 instead of float32 (faster processing)
                 cmd = [
                     'python', '-m', 'demucs',
                     '--two-stems', 'vocals',  # Only separate vocals from the rest
                     '-o', self.temp_dir,
                     '--mp3',
                     '--mp3-bitrate', '192',
-                    '-n', 'htdemucs',  # Use the best model
+                    '-n', 'mdx_extra',  # FAST model (3-4x faster than htdemucs)
+                    '--int24',  # Use int24 for faster processing
                     audio_path
                 ]
                 
@@ -70,9 +73,9 @@ class AudioSeparationService:
                 
                 print(f"Demucs output: {result.stdout}")
                 
-                # Demucs creates: temp_separation/htdemucs/<filename>/vocals.mp3 and no_vocals.mp3
+                # Demucs creates: temp_separation/mdx_extra/<filename>/vocals.mp3 and no_vocals.mp3
                 audio_filename = os.path.splitext(os.path.basename(audio_path))[0]
-                separation_dir = os.path.join(self.temp_dir, 'htdemucs', audio_filename)
+                separation_dir = os.path.join(self.temp_dir, 'mdx_extra', audio_filename)
                 
                 vocals_src = os.path.join(separation_dir, 'vocals.mp3')
                 instrumental_src = os.path.join(separation_dir, 'no_vocals.mp3')
@@ -92,7 +95,7 @@ class AudioSeparationService:
                 
                 # Clean up temporary separation directory
                 try:
-                    shutil.rmtree(os.path.join(self.temp_dir, 'htdemucs'))
+                    shutil.rmtree(os.path.join(self.temp_dir, 'mdx_extra'))
                 except Exception as e:
                     print(f"Warning: Failed to clean up temp directory: {e}")
                 
