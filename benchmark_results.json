@@ -1,0 +1,19 @@
+[
+  {
+    "song": "drankdrankdrank - Nettspend",
+    "video_id": "0bZ1VRzb5Rs",
+    "has_genius": true,
+    "original": {
+      "word_count": 264,
+      "time_seconds": 564.05,
+      "text_sample": "Bitch we in a V .A. Bitch we in a V .A. Hi there. Bitch I'm in a rich Bitch I'm in a rich I said bitch I'm in a Bitch I'm in a bitch I'm in a rich I miss my party that's for sure I hit the stope befor...",
+      "accuracy_vs_genius": 29.56
+    },
+    "vocals": {
+      "word_count": 188,
+      "time_seconds": 1133.26,
+      "text_sample": "Bitch we in a VEA, bitch we in a VEA Hi there Bitch I'm in a rich, I said bitch I'm in a Bitch I'm in a, bitch I, bitch I go Yeah I miss my brother that's for sure I'd hit the stove before I would hit...",
+      "accuracy_vs_genius": 14.05
+    }
+  }
+]

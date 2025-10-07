@@ -16,7 +16,7 @@ from services.whisper_service import WhisperService
 from services.genius_service import GeniusService
 from services.cache_service import CacheService
 from services.audio_separation_service import AudioSeparationService
-from services.lyrics_alignment_service import LyricsAlignmentService
+# from services.lyrics_alignment_service import LyricsAlignmentService  # TODO: Implement this service
 
 app = FastAPI(title="Karaoke Platform API")
 
@@ -35,7 +35,7 @@ whisper_service = WhisperService()
 genius_service = GeniusService()
 cache_service = CacheService()
 audio_separation_service = AudioSeparationService()
-lyrics_alignment_service = LyricsAlignmentService(min_confidence=0.75)
+# lyrics_alignment_service = LyricsAlignmentService(min_confidence=0.75)  # TODO: Implement this service
 
 # Track processing status for each video_id
 # Status can be: "processing", "completed", "failed"
@@ -192,29 +192,22 @@ async def _process_song_async(video_id: str):
         genius_lyrics = await genius_service.get_lyrics(metadata['title'], metadata['artist'])
         print(f"✅ Lyrics fetched!")
         
-        # 5. Align and correct lyrics
+        # 5. Prepare karaoke data (using Whisper transcription directly for now)
         print(f"\n{'='*60}")
-        print(f"🎯 [5/5] Aligning and correcting lyrics...")
+        print(f"🎯 [5/5] Preparing karaoke data...")
         print(f"{'='*60}")
-        aligned_data = await lyrics_alignment_service.align_and_correct(
-            whisper_words=transcription,
-            genius_lyrics=genius_lyrics
-        )
-        print(f"✅ Lyrics aligned!")
         
-        print(f"✓ Alignment complete: {aligned_data['alignment_meta']['corrected_count']}/{aligned_data['alignment_meta']['total_words']} words corrected (avg confidence: {aligned_data['alignment_meta']['avg_confidence']:.2f})")
-        
-        # 6. Cache the results
+        # Use transcription directly without alignment service
         karaoke_data = {
             "audio_url": f"/cache/audio/{video_id}_instrumental.mp3",
-            "lyrics": aligned_data["lyrics"],
-            "lyric_lines": aligned_data["lyric_lines"],
-            "alignment_meta": aligned_data["alignment_meta"],
+            "lyrics": transcription,  # Use Whisper transcription directly
+            "lyric_lines": transcription,  # Use Whisper transcription directly
             "title": metadata['title'],
             "artist": metadata['artist'],
             "genius_lyrics": genius_lyrics,
-            "whisper_original": transcription  # Keep original for debugging
+            "whisper_original": transcription
         }
+        print(f"✅ Karaoke data prepared!")
         
         cache_service.cache_song(video_id, karaoke_data)
         
