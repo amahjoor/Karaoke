@@ -1,3 +1,5 @@
 /cache
 /venv
 /test_backend.py
+*/__pycache__
+*/backend/services/__pycache__

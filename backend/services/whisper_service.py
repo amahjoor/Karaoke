@@ -5,12 +5,19 @@ import os
 
 class WhisperService:
     def __init__(self):
-        # Load Whisper small model for balance of speed and accuracy
+        # Load Whisper medium model for better accuracy
+        # Note: First run will download ~1.5GB model
         try:
-            self.model = whisper.load_model("small")
+            print("Loading Whisper 'medium' model (this may take a moment on first run)...")
+            self.model = whisper.load_model("medium")
+            print("✓ Whisper 'medium' model loaded successfully")
         except Exception as e:
-            print(f"Failed to load small model, trying base: {e}")
-            self.model = whisper.load_model("base")
+            print(f"Failed to load medium model, trying small: {e}")
+            try:
+                self.model = whisper.load_model("small")
+            except Exception as e2:
+                print(f"Failed to load small model, using base: {e2}")
+                self.model = whisper.load_model("base")
     
     async def transcribe_with_timestamps(self, audio_path: str) -> List[Dict]:
         """Transcribe audio file and return words with timestamps"""
